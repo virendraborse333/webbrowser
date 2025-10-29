@@ -285,5 +285,32 @@
 
     document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
   </script>
+<!-- Salesforce Embedded Service Chat -->
+<script type="text/javascript">
+  function initEmbeddedMessaging() {
+    try {
+      embeddedservice_bootstrap.settings.language = 'en_US'; // Example: 'en' or 'en-US'
+      
+      embeddedservice_bootstrap.init(
+        '00Dak00000aSRzp', // Salesforce Org ID
+        'Web_Channel', // Deployment Name
+        'https://orgfarm-aa6763613c-dev-ed.develop.my.site.com/ESWWebChannel1761740580805', // Deployment URL
+        {
+          scrt2URL: 'https://orgfarm-aa6763613c-dev-ed.develop.my.salesforce-scrt.com' // SCRT URL
+        }
+      );
+    } catch (err) {
+      console.error('Error loading Embedded Messaging: ', err);
+    }
+  };
+</script>
+
+<script
+  type="text/javascript"
+  src="https://orgfarm-aa6763613c-dev-ed.develop.my.site.com/ESWWebChannel1761740580805/assets/js/bootstrap.min.js"
+  onload="initEmbeddedMessaging()">
+</script>
+<!-- End Salesforce Embedded Service Chat -->
+
 </body>
 </html>
