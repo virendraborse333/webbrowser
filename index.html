@@ -239,7 +239,7 @@
     </main>
 
     <footer>
-      © <span id="year"></span> SunVista Solar — Built with ☀️ Clean energy passion
+      © <span id="year"></span> SunVista Solar — Built with ☀️ Clean energy resource
     </footer>
   </div>
 
@@ -285,5 +285,26 @@
 
     document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
   </script>
+
+<script type='text/javascript'>
+	function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+
+			embeddedservice_bootstrap.init(
+				'00Dak00000aSRzp',
+				'Github_Messaging_Setting',
+				'https://orgfarm-aa6763613c-dev-ed.develop.my.site.com/ESWGithubMessagingSetti1762444232721',
+				{
+					scrt2URL: 'https://orgfarm-aa6763613c-dev-ed.develop.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
+</script>
+<script type='text/javascript' src='https://orgfarm-aa6763613c-dev-ed.develop.my.site.com/ESWGithubMessagingSetti1762444232721/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+
 </body>
 </html>
