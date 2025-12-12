@@ -91,58 +91,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <p>© 2025-1 SunPower Solar Energy (New Updates-2.0) | All Rights Reserved</p>
   </footer>
 
-<script type='text/javascript'>
-	function initEmbeddedMessaging() {
-        console.log("[EmbeddedMessaging] initEmbeddedMessaging() - START");
 
-		try {
-            		console.log("[EmbeddedMessaging] Setting language to en_US");
-			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
-
-			console.log("[EmbeddedMessaging] Calling embeddedservice_bootstrap.init()");
-			embeddedservice_bootstrap.init(
-				'00DVC0000028hBV',
-				'Web_Messaging_Channel',
-				'https://lgcypower--stage.sandbox.my.site.com/ESWWebMessagingChannel1764053934051',
-				{
-					scrt2URL: 'https://lgcypower--stage.sandbox.my.salesforce-scrt.com'
-				}
-			);
-			console.log("[EmbeddedMessaging] initEmbeddedMessaging() - SUCCESS");
-
-		} catch (err) {
-			console.error('Error loading Embedded Messaging: ', err);
-		}
-		console.log("[EmbeddedMessaging] initEmbeddedMessaging() - END");
-	};
-</script>
-
-<script>
-  (function() {
-	console.log("[EmbeddedMessaging] Loader Function - START");
-    	var el = document.createElement('script');
-	el.src = 'https://lgcypower--stage.sandbox.my.site.com/ESWWebMessagingChannel1764053934051/assets/js/bootstrap.min.js';
-	el.async = 'true';
-
-    	console.log("[EmbeddedMessaging] Bootstrap script created:", el.src);
-
-	el.addEventListener('load', function() {
-	console.log("[EmbeddedMessaging] Bootstrap script LOADED");
-        console.log("[EmbeddedMessaging] Calling initEmbeddedMessaging()");
-      	console.log('Before Init');
-	
-	initEmbeddedMessaging();
-     	console.log('After Init');
-	console.log("[EmbeddedMessaging] initEmbeddedMessaging() CALLED");
-    });
-
-	el.addEventListener("error", function () {
-        console.error("[EmbeddedMessaging] ERROR loading bootstrap script:", el.src);
-    });
-
-    document.head.appendChild(el);
-    console.log("[EmbeddedMessaging] Loader Function - END");
-  })();
-</script>
 </body>
 </html>
