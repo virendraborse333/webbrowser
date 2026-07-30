@@ -15,7 +15,15 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 20px 50px;
-  background: #ffdd57;
+  background:
+        radial-gradient(circle at top right,
+            rgba(255,223,0,.25) 0%,
+            transparent 30%),
+        linear-gradient(90deg,
+            #ffffff 0%,
+            #eef8ff 45%,
+            #d9f5e8 100%);
+;
   position: sticky;
   top: 0;
   z-index: 1000;
