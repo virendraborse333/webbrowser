@@ -108,57 +108,96 @@
   </footer>
 	
 <script type='text/javascript'>
-	function initEmbeddedMessaging() {
+
+    function initEmbeddedMessaging() {
         console.log("[EmbeddedMessaging] initEmbeddedMessaging() - START");
 
-		try {
-            		console.log("[EmbeddedMessaging] Setting language to en_US");
-			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+        try {
+            console.log("[EmbeddedMessaging] Setting language to en_US");
 
-			console.log("[EmbeddedMessaging] Calling embeddedservice_bootstrap.init()");
-			embeddedservice_bootstrap.init(
-				'00Dak00001CA8mT',
-				'RAI_Messaging_Service',
-				'https://orgfarm-bab6d235b5-dev-ed.develop.my.site.com/ESWRAIMessagingService1788353264936',
-				{
-					scrt2URL: 'https://orgfarm-bab6d235b5-dev-ed.develop.my.salesforce-scrt.com'
-				}
-			);
-			console.log("[EmbeddedMessaging] initEmbeddedMessaging() - SUCCESS");
+            embeddedservice_bootstrap.settings.language = 'en_US';
 
-		} catch (err) {
-			console.error('Error loading Embedded Messaging: ', err);
-		}
-		console.log("[EmbeddedMessaging] initEmbeddedMessaging() - END");
-	};
-</script>
+            console.log("[EmbeddedMessaging] Calling embeddedservice_bootstrap.init()");
 
-<script>
-  (function() {
-	console.log("[EmbeddedMessaging] Loader Function - START");
-    	var el = document.createElement('script');
-	el.src = 'https://orgfarm-bab6d235b5-dev-ed.develop.my.site.com/ESWRAIMessagingService1788353264936/assets/js/bootstrap.min.js';
-	el.async = 'true';
+            embeddedservice_bootstrap.init(
+                '00Dak00001CA8mT',
+                'RAI_Messaging_Service',
+                'https://orgfarm-bab6d235b5-dev-ed.develop.my.site.com/ESWRAIMessagingService1788353264936',
+                {
+                    scrt2URL: 'https://orgfarm-bab6d235b5-dev-ed.develop.my.salesforce-scrt.com'
+                }
+            );
 
-    	console.log("[EmbeddedMessaging] Bootstrap script created:", el.src);
+            console.log("[EmbeddedMessaging] initEmbeddedMessaging() - SUCCESS");
 
-	el.addEventListener('load', function() {
-	console.log("[EmbeddedMessaging] Bootstrap script LOADED");
-        console.log("[EmbeddedMessaging] Calling initEmbeddedMessaging()");
-      	console.log('Before Init');
-	
-	initEmbeddedMessaging();
-     	console.log('After Init');
-	console.log("[EmbeddedMessaging] initEmbeddedMessaging() CALLED");
+        } catch (err) {
+            console.error('[EmbeddedMessaging] Error loading Embedded Messaging:', err);
+        }
+
+        console.log("[EmbeddedMessaging] initEmbeddedMessaging() - END");
+    }
+
+
+    // Listen for Salesforce Embedded Messaging to become ready
+    window.addEventListener("onEmbeddedMessagingReady", function() {
+
+        console.log("[EmbeddedMessaging] onEmbeddedMessagingReady fired");
+
+        // Automatically open RAI chatbot
+        embeddedservice_bootstrap.utilAPI.launchChat()
+            .then(function() {
+                console.log("[EmbeddedMessaging] RAI chatbot opened automatically");
+            })
+            .catch(function(error) {
+                console.error("[EmbeddedMessaging] Failed to open RAI chatbot:", error);
+            });
+
     });
 
-	el.addEventListener("error", function () {
-        console.error("[EmbeddedMessaging] ERROR loading bootstrap script:", el.src);
-    });
 
-    document.head.appendChild(el);
-    console.log("[EmbeddedMessaging] Loader Function - END");
-  })();
+    // Load Salesforce Embedded Messaging
+    (function() {
+
+        console.log("[EmbeddedMessaging] Loader Function - START");
+
+        var el = document.createElement('script');
+
+        el.src = 'https://orgfarm-bab6d235b5-dev-ed.develop.my.site.com/ESWRAIMessagingService1788353264936/assets/js/bootstrap.min.js';
+
+        el.async = true;
+
+        console.log("[EmbeddedMessaging] Bootstrap script created:", el.src);
+
+
+        el.addEventListener('load', function() {
+
+            console.log("[EmbeddedMessaging] Bootstrap script LOADED");
+
+            console.log("[EmbeddedMessaging] Calling initEmbeddedMessaging()");
+
+            initEmbeddedMessaging();
+
+            console.log("[EmbeddedMessaging] initEmbeddedMessaging() CALLED");
+
+        });
+
+
+        el.addEventListener("error", function() {
+
+            console.error(
+                "[EmbeddedMessaging] ERROR loading bootstrap script:",
+                el.src
+            );
+
+        });
+
+
+        document.head.appendChild(el);
+
+        console.log("[EmbeddedMessaging] Loader Function - END");
+
+    })();
+
 </script>
 
 </body>
