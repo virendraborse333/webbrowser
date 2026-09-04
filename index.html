@@ -106,247 +106,95 @@
   <footer>
     <p>© 2026-1 SunPower Solar Energy (New Updates-3.0) | All Rights Reserved</p>
   </footer>
-
-	<!-- RAI Agent Popup -->
-<div id="rai-popup" class="rai-popup">
-  <button class="rai-popup-close" onclick="closeRAIPopup()">×</button>
-
-  <div class="rai-popup-icon">🤖</div>
-
-  <div class="rai-popup-content">
-    <h3>Ask RAI Agent</h3>
-    <p>Hi! 👋 How can I help you today?</p>
-
-    <button class="rai-ask-button" onclick="openRAIChat()">
-      Ask RAI Agent
-    </button>
-  </div>
-</div>
 	
-<script type="text/javascript">
+<script type='text/javascript'>
 
-    /* =========================================
-       RAI POPUP
-    ========================================= */
+    function initEmbeddedMessaging() {
+        console.log("[EmbeddedMessaging] initEmbeddedMessaging() - START");
 
-    // Show RAI popup automatically when page loads
-    window.addEventListener("load", function () {
+        try {
+            console.log("[EmbeddedMessaging] Setting language to en_US");
 
-        console.log("[RAI Popup] Page loaded");
+            embeddedservice_bootstrap.settings.language = 'en_US';
 
-        setTimeout(function () {
+            console.log("[EmbeddedMessaging] Calling embeddedservice_bootstrap.init()");
 
-            const popup = document.getElementById("rai-popup");
+            embeddedservice_bootstrap.init(
+                '00Dak00001CA8mT',
+                'RAI_Messaging_Service',
+                'https://orgfarm-bab6d235b5-dev-ed.develop.my.site.com/ESWRAIMessagingService1788353264936',
+                {
+                    scrt2URL: 'https://orgfarm-bab6d235b5-dev-ed.develop.my.salesforce-scrt.com'
+                }
+            );
 
-            if (popup) {
-                popup.classList.add("show");
-                console.log("[RAI Popup] Popup displayed");
-            }
+            console.log("[EmbeddedMessaging] initEmbeddedMessaging() - SUCCESS");
 
-        }, 1500);
+        } catch (err) {
+            console.error('[EmbeddedMessaging] Error loading Embedded Messaging:', err);
+        }
+
+        console.log("[EmbeddedMessaging] initEmbeddedMessaging() - END");
+    }
+
+
+    // Listen for Salesforce Embedded Messaging to become ready
+    window.addEventListener("onEmbeddedMessagingReady", function() {
+
+        console.log("[EmbeddedMessaging] onEmbeddedMessagingReady fired");
+
+        // Automatically open RAI chatbot
+        embeddedservice_bootstrap.utilAPI.launchChat()
+            .then(function() {
+                console.log("[EmbeddedMessaging] RAI chatbot opened automatically");
+            })
+            .catch(function(error) {
+                console.error("[EmbeddedMessaging] Failed to open RAI chatbot:", error);
+            });
 
     });
 
 
-    // Close popup
-    function closeRAIPopup() {
+    // Load Salesforce Embedded Messaging
+    (function() {
 
-        const popup = document.getElementById("rai-popup");
-
-        if (popup) {
-            popup.classList.remove("show");
-        }
-
-    }
-
-
-    // Open Salesforce RAI Chat
-    function openRAIChat() {
-
-        console.log("[RAI Popup] Ask RAI Agent clicked");
-
-        closeRAIPopup();
-
-        if (
-            typeof embeddedservice_bootstrap !== "undefined" &&
-            embeddedservice_bootstrap.utilAPI
-        ) {
-
-            embeddedservice_bootstrap.utilAPI.launchChat()
-                .then(function () {
-
-                    console.log(
-                        "[EmbeddedMessaging] RAI chatbot opened successfully"
-                    );
-
-                })
-                .catch(function (error) {
-
-                    console.error(
-                        "[EmbeddedMessaging] Failed to open RAI chatbot:",
-                        error
-                    );
-
-                });
-
-        } else {
-
-            console.error(
-                "[EmbeddedMessaging] Salesforce Embedded Messaging is not ready."
-            );
-
-        }
-    }
-
-
-    /* =========================================
-       SALESFORCE EMBEDDED MESSAGING
-    ========================================= */
-
-    function initEmbeddedMessaging() {
-
-        console.log(
-            "[EmbeddedMessaging] initEmbeddedMessaging() - START"
-        );
-
-        try {
-
-            console.log(
-                "[EmbeddedMessaging] Setting language to en_US"
-            );
-
-            embeddedservice_bootstrap.settings.language = 'en_US';
-
-
-            console.log(
-                "[EmbeddedMessaging] Calling embeddedservice_bootstrap.init()"
-            );
-
-
-            embeddedservice_bootstrap.init(
-
-                '00Dak00001CA8mT',
-
-                'RAI_Messaging_Service',
-
-                'https://orgfarm-bab6d235b5-dev-ed.develop.my.site.com/ESWRAIMessagingService1788353264936',
-
-                {
-                    scrt2URL:
-                        'https://orgfarm-bab6d235b5-dev-ed.develop.my.salesforce-scrt.com'
-                }
-
-            );
-
-
-            console.log(
-                "[EmbeddedMessaging] initEmbeddedMessaging() - SUCCESS"
-            );
-
-        } catch (err) {
-
-            console.error(
-                '[EmbeddedMessaging] Error loading Embedded Messaging:',
-                err
-            );
-
-        }
-
-        console.log(
-            "[EmbeddedMessaging] initEmbeddedMessaging() - END"
-        );
-    }
-
-
-    /* =========================================
-       EMBEDDED MESSAGING READY
-    ========================================= */
-
-    window.addEventListener(
-        "onEmbeddedMessagingReady",
-        function () {
-
-            console.log(
-                "[EmbeddedMessaging] onEmbeddedMessagingReady fired"
-            );
-
-            /*
-             * DO NOT automatically launch chat here.
-             *
-             * The user will click "Ask RAI Agent"
-             * in the popup.
-             */
-
-            console.log(
-                "[EmbeddedMessaging] RAI is ready for user interaction"
-            );
-
-        }
-    );
-
-
-    /* =========================================
-       LOAD SALESFORCE BOOTSTRAP
-    ========================================= */
-
-    (function () {
-
-        console.log(
-            "[EmbeddedMessaging] Loader Function - START"
-        );
-
+        console.log("[EmbeddedMessaging] Loader Function - START");
 
         var el = document.createElement('script');
 
-        el.src =
-            'https://orgfarm-bab6d235b5-dev-ed.develop.my.site.com/ESWRAIMessagingService1788353264936/assets/js/bootstrap.min.js';
+        el.src = 'https://orgfarm-bab6d235b5-dev-ed.develop.my.site.com/ESWRAIMessagingService1788353264936/assets/js/bootstrap.min.js';
 
         el.async = true;
 
-
-        console.log(
-            "[EmbeddedMessaging] Bootstrap script created:",
-            el.src
-        );
+        console.log("[EmbeddedMessaging] Bootstrap script created:", el.src);
 
 
-        el.addEventListener(
-            'load',
-            function () {
+        el.addEventListener('load', function() {
 
-                console.log(
-                    "[EmbeddedMessaging] Bootstrap script LOADED"
-                );
+            console.log("[EmbeddedMessaging] Bootstrap script LOADED");
 
-                console.log(
-                    "[EmbeddedMessaging] Calling initEmbeddedMessaging()"
-                );
+            console.log("[EmbeddedMessaging] Calling initEmbeddedMessaging()");
 
-                initEmbeddedMessaging();
+            initEmbeddedMessaging();
 
-            }
-        );
+            console.log("[EmbeddedMessaging] initEmbeddedMessaging() CALLED");
+
+        });
 
 
-        el.addEventListener(
-            "error",
-            function () {
+        el.addEventListener("error", function() {
 
-                console.error(
-                    "[EmbeddedMessaging] ERROR loading bootstrap script:",
-                    el.src
-                );
+            console.error(
+                "[EmbeddedMessaging] ERROR loading bootstrap script:",
+                el.src
+            );
 
-            }
-        );
+        });
 
 
         document.head.appendChild(el);
 
-
-        console.log(
-            "[EmbeddedMessaging] Loader Function - END"
-        );
+        console.log("[EmbeddedMessaging] Loader Function - END");
 
     })();
 
