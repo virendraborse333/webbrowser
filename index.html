@@ -1,204 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SunPower Solar Energy</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
+    <meta charset="UTF-8">
 
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>RAI - Customer Support</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <!-- Header -->
-  <header>
-    <div class="logo">☀️ RAI Enhancement TestSite — Solar</div>
-  <nav>
-    <ul>
-      <li><a href="#home">🏠 Home</a></li>
-      <li><a href="#about">ℹ️ About</a></li>
-      <li><a href="#services">⚡ Services</a></li>
-      <li><a href="#contact">📞 Contact</a></li>
-    </ul>
-  </nav>
-  </header>
 
-  <!-- Hero Section -->
-  <section id="home" class="hero">
-    <div class="hero-content">
-      <h1>Power Your Future with Clean Energy</h1>
-      <p>Reliable, affordable, and sustainable solar solutions for your home and business.</p>
-      <button onclick="scrollToSection('contact')">Get a Free Quote</button>
-    </div>
-  </section>
+    <!-- =========================
+         RAI MAIN PAGE
+    ========================== -->
 
-  <!-- About Section -->
-  <section id="about" class="about">
-    <h2>About Us</h2>
-    <p>
-      SunPower Solar is dedicated to making renewable energy accessible for everyone. 
-      With years of experience in solar panel installation and maintenance, we help you 
-      save money and protect the planet.
-    </p>
-    <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1000&q=80" alt="Solar panels">
-  </section>
+    <main class="rai-page">
 
-  <!-- Services Section -->
-<section id="services" class="services">
-  <h2>Our Services</h2>
+        <div class="rai-container">
 
-  <div class="service-cards">
+            <!-- RAI Robot -->
+            <div class="rai-logo">
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=900&q=80"
-     alt="Solar Panel Installation">
+                <div class="spark spark-1">✦</div>
+                <div class="spark spark-2">✦</div>
+                <div class="spark spark-3">✦</div>
 
-      <div class="card-content">
-        <h3>☀️ Solar Installation</h3>
-        <p>
-          Professional rooftop and commercial solar installations designed
-          for maximum energy efficiency and long-term savings.
-        </p>
-      </div>
-    </div>
+                <div class="robot-circle">
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1624397640148-949b1732bb0a?auto=format&fit=crop&w=900&q=80"
-     alt="Solar Panel Maintenance">
+                    <div class="robot">
 
-      <div class="card-content">
-        <h3>🔧 Maintenance & Repair</h3>
-        <p>
-          Preventive maintenance, panel cleaning, inverter servicing,
-          and quick repair support for uninterrupted performance.
-        </p>
-      </div>
-    </div>
+                        <div class="robot-ear left"></div>
+                        <div class="robot-ear right"></div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80"
-     alt="Energy Consultation">
+                        <div class="robot-face">
 
-      <div class="card-content">
-        <h3>⚡ Energy Consulting</h3>
-        <p>
-          Expert guidance to reduce electricity bills, optimize consumption,
-          and select the best solar solution for your property.
-        </p>
-      </div>
-    </div>
+                            <div class="eye left-eye"></div>
+                            <div class="eye right-eye"></div>
 
-  </div>
-</section>
+                            <div class="robot-smile"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
 
-  <!-- Contact Section -->
-  <section id="contact" class="contact">
-    <h2>Contact Us</h2>
-    <form id="contact-form">
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <textarea placeholder="Your Message" required></textarea>
-      <button type="submit">Send A Message</button>
-    </form>
-  </section>
+            <!-- Heading -->
+            <h1>
+                How can <span>RAI</span> help?
+            </h1>
 
-  <footer>
-    <p>© 2026-1 SunPower Solar Energy (New Updates-3.0) | All Rights Reserved</p>
-  </footer>
-	
-<script type='text/javascript'>
 
-    function initEmbeddedMessaging() {
-        console.log("[EmbeddedMessaging] initEmbeddedMessaging() - START");
+            <!-- Search / Ask RAI -->
+            <div class="ask-box">
 
-        try {
-            console.log("[EmbeddedMessaging] Setting language to en_US");
+                <div class="ask-icon">
+                    ✦
+                </div>
 
-            embeddedservice_bootstrap.settings.language = 'en_US';
+                <input
+                    type="text"
+                    id="raiInput"
+                    placeholder="Ask RAI..."
+                    autocomplete="off"
+                >
 
-            console.log("[EmbeddedMessaging] Calling embeddedservice_bootstrap.init()");
+                <button
+                    id="sendButton"
+                    class="send-button"
+                    aria-label="Send"
+                >
+                    ➤
+                </button>
 
-            embeddedservice_bootstrap.init(
-                '00Dak00001CA8mT',
-                'RAI_Messaging_Service',
-                'https://orgfarm-bab6d235b5-dev-ed.develop.my.site.com/ESWRAIMessagingService1788353264936',
-                {
-                    scrt2URL: 'https://orgfarm-bab6d235b5-dev-ed.develop.my.salesforce-scrt.com'
-                }
+            </div>
+
+
+            <!-- Quick Reply Buttons -->
+            <div class="quick-actions">
+
+                <button
+                    class="quick-button"
+                    data-message="I need help with billing and payments."
+                >
+
+                    <div class="quick-icon">
+                        $
+                    </div>
+
+                    <span>
+                        Billing & Payments
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="quick-button"
+                    data-message="I need help with a maintenance request."
+                >
+
+                    <div class="quick-icon wrench">
+                        🔧
+                    </div>
+
+                    <span>
+                        Maintenance Requests
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="quick-button"
+                    data-message="I would like to check my project status."
+                >
+
+                    <div class="quick-icon">
+                        ✓
+                    </div>
+
+                    <span>
+                        Project Status
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="quick-button"
+                    data-message="I need help with cancelling or changing my project."
+                >
+
+                    <div class="quick-icon">
+                        ×
+                    </div>
+
+                    <span>
+                        Cancellations & Changes
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <!-- Loading / Status -->
+            <div id="raiStatus" class="rai-status">
+                Connecting to RAI...
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- Salesforce Embedded Messaging -->
+
+    <script type="text/javascript">
+
+        /*
+         * Salesforce Embedded Messaging
+         */
+
+        function initEmbeddedMessaging() {
+
+            console.log(
+                "[RAI] Initializing Embedded Messaging..."
             );
 
-            console.log("[EmbeddedMessaging] initEmbeddedMessaging() - SUCCESS");
+            try {
 
-        } catch (err) {
-            console.error('[EmbeddedMessaging] Error loading Embedded Messaging:', err);
+                embeddedservice_bootstrap.settings.language = 'en_US';
+
+                /*
+                 * Hide Salesforce default floating button.
+                 *
+                 * We use our own RAI UI instead.
+                 */
+                embeddedservice_bootstrap.settings.hideChatButton = true;
+
+
+                embeddedservice_bootstrap.init(
+
+                    '00Dak00001CA8mT',
+
+                    'RAI_Messaging_Service',
+
+                    'https://orgfarm-bab6d235b5-dev-ed.develop.my.site.com/ESWRAIMessagingService1788353264936',
+
+                    {
+                        scrt2URL:
+                            'https://orgfarm-bab6d235b5-dev-ed.develop.my.salesforce-scrt.com'
+                    }
+
+                );
+
+            }
+
+            catch (err) {
+
+                console.error(
+                    '[RAI] Error loading Embedded Messaging:',
+                    err
+                );
+
+                updateRAIStatus(
+                    "Unable to connect to RAI."
+                );
+
+            }
+
         }
 
-        console.log("[EmbeddedMessaging] initEmbeddedMessaging() - END");
-    }
+
+        /*
+         * Salesforce Messaging Ready
+         */
+
+        window.addEventListener(
+            "onEmbeddedMessagingReady",
+            function () {
+
+                console.log(
+                    "[RAI] Embedded Messaging is ready."
+                );
+
+                updateRAIStatus(
+                    "RAI is ready to help."
+                );
+
+            }
+        );
 
 
-    // Listen for Salesforce Embedded Messaging to become ready
-    window.addEventListener("onEmbeddedMessagingReady", function() {
+        /*
+         * Load Salesforce Bootstrap
+         */
 
-        console.log("[EmbeddedMessaging] onEmbeddedMessagingReady fired");
+        (function () {
 
-        // Automatically open RAI chatbot
-        embeddedservice_bootstrap.utilAPI.launchChat()
-            .then(function() {
-                console.log("[EmbeddedMessaging] RAI chatbot opened automatically");
-            })
-            .catch(function(error) {
-                console.error("[EmbeddedMessaging] Failed to open RAI chatbot:", error);
-            });
+            const script =
+                document.createElement('script');
 
-    });
+            script.src =
+                'https://orgfarm-bab6d235b5-dev-ed.develop.my.site.com/ESWRAIMessagingService1788353264936/assets/js/bootstrap.min.js';
+
+            script.async = true;
 
 
-    // Load Salesforce Embedded Messaging
-    (function() {
+            script.onload = function () {
 
-        console.log("[EmbeddedMessaging] Loader Function - START");
+                console.log(
+                    "[RAI] Salesforce bootstrap loaded."
+                );
 
-        var el = document.createElement('script');
+                initEmbeddedMessaging();
 
-        el.src = 'https://orgfarm-bab6d235b5-dev-ed.develop.my.site.com/ESWRAIMessagingService1788353264936/assets/js/bootstrap.min.js';
-
-        el.async = true;
-
-        console.log("[EmbeddedMessaging] Bootstrap script created:", el.src);
+            };
 
 
-        el.addEventListener('load', function() {
+            script.onerror = function () {
 
-            console.log("[EmbeddedMessaging] Bootstrap script LOADED");
+                console.error(
+                    "[RAI] Salesforce bootstrap failed."
+                );
 
-            console.log("[EmbeddedMessaging] Calling initEmbeddedMessaging()");
+                updateRAIStatus(
+                    "Unable to connect to RAI."
+                );
 
-            initEmbeddedMessaging();
-
-            console.log("[EmbeddedMessaging] initEmbeddedMessaging() CALLED");
-
-        });
-
-
-        el.addEventListener("error", function() {
-
-            console.error(
-                "[EmbeddedMessaging] ERROR loading bootstrap script:",
-                el.src
-            );
-
-        });
+            };
 
 
-        document.head.appendChild(el);
+            document.head.appendChild(script);
 
-        console.log("[EmbeddedMessaging] Loader Function - END");
+        })();
 
-    })();
+    </script>
 
-</script>
+
+    <!-- Your RAI JavaScript -->
+    <script src="script.js"></script>
 
 </body>
 </html>
