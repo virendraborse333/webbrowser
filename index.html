@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
 
@@ -14,6 +15,48 @@
 </head>
 
 <body>
+
+    <!-- =========================
+         HEADER IMAGE
+    ========================== -->
+
+    <header class="site-header">
+
+        <img
+            src="header.png"
+            alt="LGCY Header"
+            class="header-image"
+        >
+
+    </header>
+
+
+    <!-- =========================
+         LANGUAGE TOGGLE  (NEW)
+    ========================== -->
+
+    <div class="lang-toggle" role="group" aria-label="Language / Idioma">
+
+        <button
+            type="button"
+            id="lang-en"
+            class="lang-btn"
+            aria-pressed="true"
+        >
+            EN
+        </button>
+
+        <button
+            type="button"
+            id="lang-es"
+            class="lang-btn"
+            aria-pressed="false"
+        >
+            ES
+        </button>
+
+    </div>
+
 
     <!-- =========================
          RAI MAIN PAGE
@@ -54,8 +97,11 @@
 
 
             <!-- Heading -->
-            <h1>
-                How can <span>RAI</span> help?
+            <!-- NOTE: text content is now set/replaced by JS (applyLang) so it can swap
+                 language. The span.brand-name below is the default EN render; JS
+                 overwrites this h1's innerHTML on load and on toggle. -->
+            <h1 id="raiHeading">
+                How can <span class="brand-name">RAI</span> help?
             </h1>
 
 
@@ -85,13 +131,15 @@
 
 
             <!-- Quick Reply Buttons -->
+            <!-- NOTE: data-key added so JS can swap each button's visible label AND
+                 its data-message (the text actually sent to RAI) together. -->
             <div class="quick-actions">
 
                 <button
                     class="quick-button"
+                    data-key="billing"
                     data-message="I need help with billing and payments."
                 >
-
                     <div class="quick-icon">
                         $
                     </div>
@@ -99,15 +147,14 @@
                     <span>
                         Billing & Payments
                     </span>
-
                 </button>
 
 
                 <button
                     class="quick-button"
+                    data-key="maintenance"
                     data-message="I need help with a maintenance request."
                 >
-
                     <div class="quick-icon wrench">
                         🔧
                     </div>
@@ -115,15 +162,14 @@
                     <span>
                         Maintenance Requests
                     </span>
-
                 </button>
 
 
                 <button
                     class="quick-button"
+                    data-key="projectStatus"
                     data-message="I would like to check my project status."
                 >
-
                     <div class="quick-icon">
                         ✓
                     </div>
@@ -131,15 +177,14 @@
                     <span>
                         Project Status
                     </span>
-
                 </button>
 
 
                 <button
                     class="quick-button"
+                    data-key="cancellations"
                     data-message="I need help with cancelling or changing my project."
                 >
-
                     <div class="quick-icon">
                         ×
                     </div>
@@ -147,7 +192,6 @@
                     <span>
                         Cancellations & Changes
                     </span>
-
                 </button>
 
             </div>
@@ -163,13 +207,26 @@
     </main>
 
 
-    <!-- Salesforce Embedded Messaging -->
+    <!-- =========================
+         FOOTER IMAGE
+    ========================== -->
+
+    <footer class="site-footer">
+
+        <img
+            src="footer.png"
+            alt="LGCY Footer"
+            class="footer-image"
+        >
+
+    </footer>
+
+
+    <!-- =========================
+         SALESFORCE EMBEDDED MESSAGING
+    ========================== -->
 
     <script type="text/javascript">
-
-        /*
-         * Salesforce Embedded Messaging
-         */
 
         function initEmbeddedMessaging() {
 
@@ -179,15 +236,12 @@
 
             try {
 
+                // NOTE: this is read once, at init time. Toggling EN/ES on the page
+                // AFTER this has run does not change the bot's own language — see
+                // the note in script.js above the language toggle code.
                 embeddedservice_bootstrap.settings.language = 'en_US';
 
-                /*
-                 * Hide Salesforce default floating button.
-                 *
-                 * We use our own RAI UI instead.
-                 */
                 embeddedservice_bootstrap.settings.hideChatButton = true;
-
 
                 embeddedservice_bootstrap.init(
 
@@ -222,10 +276,6 @@
         }
 
 
-        /*
-         * Salesforce Messaging Ready
-         */
-
         window.addEventListener(
             "onEmbeddedMessagingReady",
             function () {
@@ -235,16 +285,14 @@
                 );
 
                 updateRAIStatus(
-                    "RAI is ready to help."
+                    currentLang === "es"
+                        ? "RAI está listo para ayudar."
+                        : "RAI is ready to help."
                 );
 
             }
         );
 
-
-        /*
-         * Load Salesforce Bootstrap
-         */
 
         (function () {
 
@@ -292,4 +340,5 @@
     <script src="script.js"></script>
 
 </body>
+
 </html>
