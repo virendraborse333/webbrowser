@@ -612,6 +612,70 @@ h1 {
 
 
 /* ================================
+   CHAT STAGE  (NEW)
+   Centered container the real Salesforce conversation window mounts into
+   (displayMode: 'inline' + targetElement in index.html).
+================================ */
+
+.rai-chat-container {
+
+    width: 100%;
+
+    max-width: 480px;
+
+    height: 600px;
+
+    margin: 30px auto 0;
+
+    border: 1px solid #d9dfe8;
+
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 25px
+        rgba(20, 60, 120, 0.08);
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+.rai-chat-placeholder {
+
+    color: #8b929e;
+
+    font-size: 14px;
+
+    padding: 0 24px;
+
+}
+
+
+@media (max-width: 480px) {
+
+    .rai-chat-container {
+
+        max-width: 100%;
+
+        height: 70vh;
+
+        margin-top: 20px;
+
+        border-radius: 14px;
+
+    }
+
+}
+
+
+/* ================================
    STATUS
 ================================ */
 
