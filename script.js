@@ -247,6 +247,15 @@ function openRAIChat() {
                 raiStrings[currentLang].statusOpen
             );
 
+            // Chat has mounted into #rai-chat-container — hide the
+            // "Your conversation will open here" placeholder text.
+            const placeholder =
+                document.getElementById("rai-chat-placeholder");
+
+            if (placeholder) {
+                placeholder.style.display = "none";
+            }
+
         })
 
         .catch(function (error) {
