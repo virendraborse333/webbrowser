@@ -10,21 +10,25 @@
 let raiMessagingReady = false;
 
 
-/* ========================================
-   LANGUAGE TOGGLE  (NEW)
-   ----------------------------------------
-   This swaps the page's own text (heading, placeholder, quick-action
-   labels, status messages) and the text sent for each quick action.
+/*
+ * Chat overlay state
+ * hasOpened  -> the Salesforce chat has been launched at least once
+ * isOpen     -> the fullscreen overlay is currently visible (maximized)
+ */
 
+let hasOpened = false;
+let isOpen = false;
+
+
+/* ========================================
+   LANGUAGE TOGGLE
+   ----------------------------------------
    IMPORTANT LIMITATION: this does NOT change what language RAI (the
    Salesforce bot) replies in mid-session. embeddedservice_bootstrap
    .settings.language is only read once, at init() time (see the inline
    script in index.html), before this toggle can run. If you need the
    bot's own replies to switch language too, that has to be handled on
-   the Salesforce side — typically either a second deployment per
-   language, or passing a language/session attribute the bot flow reads
-   at conversation start. Worth a conversation with whoever owns the
-   Agentforce/Messaging setup.
+   the Salesforce side.
 ======================================== */
 
 const raiStrings = {
@@ -39,6 +43,9 @@ const raiStrings = {
         statusUnavailable: "RAI is currently unavailable.",
         statusStillConnecting: "RAI is still connecting...",
         statusUnableOpen: "Unable to open RAI chat.",
+        chatHeaderTitle: "RAI Assistant",
+        minimizeLabel: "Minimize chat",
+        launcherLabel: "Open RAI chat",
         quickActions: {
             billing: { label: "Billing & Payments", message: "I need help with billing and payments." },
             maintenance: { label: "Maintenance Requests", message: "I need help with a maintenance request." },
@@ -57,6 +64,9 @@ const raiStrings = {
         statusUnavailable: "RAI no está disponible en este momento.",
         statusStillConnecting: "RAI todavía se está conectando...",
         statusUnableOpen: "No se pudo abrir el chat de RAI.",
+        chatHeaderTitle: "Asistente RAI",
+        minimizeLabel: "Minimizar chat",
+        launcherLabel: "Abrir el chat de RAI",
         quickActions: {
             billing: { label: "Facturación y Pagos", message: "Necesito ayuda con la facturación y los pagos." },
             maintenance: { label: "Solicitudes de Mantenimiento", message: "Necesito ayuda con una solicitud de mantenimiento." },
@@ -112,6 +122,23 @@ function applyLang(lang) {
     // Only overwrite the status line if it's showing default connecting text —
     // avoid stomping a "ready" / "open" message that's already showing.
     updateRAIStatus(raiMessagingReady ? strings.statusReady : strings.statusConnecting);
+
+
+    const headerTitle = document.querySelector(".rai-chat-header-title");
+    if (headerTitle) {
+        headerTitle.textContent = strings.chatHeaderTitle;
+    }
+
+    const minimizeBtn = document.getElementById("rai-minimize-btn");
+    if (minimizeBtn) {
+        minimizeBtn.setAttribute("aria-label", strings.minimizeLabel);
+        minimizeBtn.setAttribute("title", strings.minimizeLabel);
+    }
+
+    const launcher = document.getElementById("rai-launcher");
+    if (launcher) {
+        launcher.setAttribute("aria-label", strings.launcherLabel);
+    }
 
 
     const enBtn = document.getElementById("lang-en");
@@ -183,6 +210,96 @@ function updateRAIStatus(message) {
 }
 
 
+/* ========================================
+   FULLSCREEN MAXIMIZE / MINIMIZE  (NEW)
+   ----------------------------------------
+   The chat container is a position:fixed overlay covering the whole
+   viewport. Maximizing/minimizing is purely a CSS toggle — the
+   Salesforce widget stays mounted in the DOM the whole time, so the
+   conversation state is never lost when the user minimizes.
+======================================== */
+
+const chatContainer = document.getElementById("rai-chat-container");
+const launcher = document.getElementById("rai-launcher");
+const minimizeBtn = document.getElementById("rai-minimize-btn");
+
+
+function maximizeChat() {
+
+    if (!chatContainer) {
+        return;
+    }
+
+    chatContainer.classList.add("is-open");
+    document.body.classList.add("rai-chat-locked");
+
+    if (launcher) {
+        launcher.classList.remove("is-visible");
+    }
+
+    isOpen = true;
+
+}
+
+
+function minimizeChat() {
+
+    if (!chatContainer) {
+        return;
+    }
+
+    chatContainer.classList.remove("is-open");
+    document.body.classList.remove("rai-chat-locked");
+
+    if (launcher && hasOpened) {
+        launcher.classList.add("is-visible");
+    }
+
+    isOpen = false;
+
+}
+
+
+if (minimizeBtn) {
+
+    minimizeBtn.addEventListener("click", function () {
+        minimizeChat();
+    });
+
+}
+
+
+if (launcher) {
+
+    launcher.addEventListener("click", function () {
+
+        if (hasOpened) {
+
+            // Chat already launched at least once — just re-show it,
+            // no need to call openRAIChat() / launchChat() again.
+            maximizeChat();
+
+        } else {
+
+            startRAIConversation();
+
+        }
+
+    });
+
+}
+
+
+// Allow Escape to minimize, like most fullscreen overlays.
+document.addEventListener("keydown", function (event) {
+
+    if (event.key === "Escape" && isOpen) {
+        minimizeChat();
+    }
+
+});
+
+
 /*
  * Open Salesforce RAI Chat
  */
@@ -232,6 +349,21 @@ function openRAIChat() {
         raiStrings[currentLang].statusOpening
     );
 
+    maximizeChat();
+
+
+    if (hasOpened) {
+
+        // Already launched once — the widget is already mounted,
+        // nothing more to do besides having maximized it above.
+        updateRAIStatus(
+            raiStrings[currentLang].statusOpen
+        );
+
+        return Promise.resolve();
+
+    }
+
 
     return embeddedservice_bootstrap
         .utilAPI
@@ -243,11 +375,13 @@ function openRAIChat() {
                 "[RAI] Chat opened."
             );
 
+            hasOpened = true;
+
             updateRAIStatus(
                 raiStrings[currentLang].statusOpen
             );
 
-            // Chat has mounted into #rai-chat-container — hide the
+            // Chat has mounted into #rai-chat-body — hide the
             // "Your conversation will open here" placeholder text.
             const placeholder =
                 document.getElementById("rai-chat-placeholder");
@@ -268,6 +402,9 @@ function openRAIChat() {
             updateRAIStatus(
                 raiStrings[currentLang].statusUnableOpen
             );
+
+            // Launch failed — don't leave an empty fullscreen overlay up.
+            minimizeChat();
 
         });
 
@@ -347,22 +484,23 @@ function sendRAIMessage(message) {
 
 /*
  * Start RAI conversation
+ * message is optional — clicking the bare launcher bubble opens the
+ * chat with nothing pre-filled.
  */
 
 function startRAIConversation(message) {
 
-    if (!message) {
-        return;
-    }
-
-
     /*
-     * First open the Salesforce chat.
+     * First open (and maximize) the Salesforce chat.
      */
 
     openRAIChat()
 
         .then(function () {
+
+            if (!message) {
+                return;
+            }
 
             /*
              * Give the messaging client
