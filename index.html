@@ -202,6 +202,22 @@
                 Connecting to RAI...
             </div>
 
+
+            <!-- =========================
+                 CHAT STAGE  (NEW)
+                 The real Salesforce conversation window mounts INSIDE this
+                 div once launchChat() runs, via displayMode = 'inline' +
+                 targetElement below. It stays empty/hidden until then.
+            ========================== -->
+
+            <div id="rai-chat-container" class="rai-chat-container">
+
+                <p id="rai-chat-placeholder" class="rai-chat-placeholder">
+                    Your conversation will open here.
+                </p>
+
+            </div>
+
         </div>
 
     </main>
@@ -242,6 +258,22 @@
                 embeddedservice_bootstrap.settings.language = 'en_US';
 
                 embeddedservice_bootstrap.settings.hideChatButton = true;
+
+                // NEW: mount the real conversation window inside our centered
+                // #rai-chat-container div instead of a floating corner bubble.
+                // Requires Enhanced Web Chat v2 (ECv2). If your deployment is
+                // legacy v1, this pair of settings is ignored and you'll still
+                // see the default floating behavior — let me know and I'll swap
+                // in the CSS-override fallback instead.
+                embeddedservice_bootstrap.settings.displayMode = 'inline';
+
+                embeddedservice_bootstrap.settings.targetElement =
+                    document.getElementById('rai-chat-container');
+
+                // Keep the container empty/placeholder until the user actually
+                // triggers a conversation (Ask RAI / a quick action), rather
+                // than auto-starting a blank chat the instant the page loads.
+                embeddedservice_bootstrap.settings.disableInlineAutoLaunch = true;
 
                 embeddedservice_bootstrap.init(
 
