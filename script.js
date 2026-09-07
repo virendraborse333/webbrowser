@@ -10,6 +10,139 @@
 let raiMessagingReady = false;
 
 
+/* ========================================
+   LANGUAGE TOGGLE  (NEW)
+   ----------------------------------------
+   This swaps the page's own text (heading, placeholder, quick-action
+   labels, status messages) and the text sent for each quick action.
+
+   IMPORTANT LIMITATION: this does NOT change what language RAI (the
+   Salesforce bot) replies in mid-session. embeddedservice_bootstrap
+   .settings.language is only read once, at init() time (see the inline
+   script in index.html), before this toggle can run. If you need the
+   bot's own replies to switch language too, that has to be handled on
+   the Salesforce side — typically either a second deployment per
+   language, or passing a language/session attribute the bot flow reads
+   at conversation start. Worth a conversation with whoever owns the
+   Agentforce/Messaging setup.
+======================================== */
+
+const raiStrings = {
+
+    en: {
+        heading: 'How can <span class="brand-name">RAI</span> help?',
+        placeholder: "Ask RAI...",
+        statusConnecting: "Connecting to RAI...",
+        statusReady: "RAI is ready to help.",
+        statusOpening: "Opening RAI...",
+        statusOpen: "RAI chat is open.",
+        statusUnavailable: "RAI is currently unavailable.",
+        statusStillConnecting: "RAI is still connecting...",
+        statusUnableOpen: "Unable to open RAI chat.",
+        quickActions: {
+            billing: { label: "Billing & Payments", message: "I need help with billing and payments." },
+            maintenance: { label: "Maintenance Requests", message: "I need help with a maintenance request." },
+            projectStatus: { label: "Project Status", message: "I would like to check my project status." },
+            cancellations: { label: "Cancellations & Changes", message: "I need help with cancelling or changing my project." }
+        }
+    },
+
+    es: {
+        heading: '¿En qué puede ayudarte <span class="brand-name">RAI</span>?',
+        placeholder: "Pregúntale a RAI...",
+        statusConnecting: "Conectando con RAI...",
+        statusReady: "RAI está listo para ayudar.",
+        statusOpening: "Abriendo RAI...",
+        statusOpen: "El chat de RAI está abierto.",
+        statusUnavailable: "RAI no está disponible en este momento.",
+        statusStillConnecting: "RAI todavía se está conectando...",
+        statusUnableOpen: "No se pudo abrir el chat de RAI.",
+        quickActions: {
+            billing: { label: "Facturación y Pagos", message: "Necesito ayuda con la facturación y los pagos." },
+            maintenance: { label: "Solicitudes de Mantenimiento", message: "Necesito ayuda con una solicitud de mantenimiento." },
+            projectStatus: { label: "Estado del Proyecto", message: "Quisiera consultar el estado de mi proyecto." },
+            cancellations: { label: "Cancelaciones y Cambios", message: "Necesito ayuda para cancelar o cambiar mi proyecto." }
+        }
+    }
+
+};
+
+
+let currentLang = "en";
+
+
+function applyLang(lang) {
+
+    currentLang = lang;
+
+    const strings = raiStrings[lang];
+
+
+    const heading = document.getElementById("raiHeading");
+    if (heading) {
+        heading.innerHTML = strings.heading;
+    }
+
+
+    const input = document.getElementById("raiInput");
+    if (input) {
+        input.placeholder = strings.placeholder;
+    }
+
+
+    document.querySelectorAll(".quick-button").forEach(function (button) {
+
+        const key = button.dataset.key;
+        const action = strings.quickActions[key];
+
+        if (!action) {
+            return;
+        }
+
+        const label = button.querySelector("span");
+        if (label) {
+            label.textContent = action.label;
+        }
+
+        button.dataset.message = action.message;
+
+    });
+
+
+    // Only overwrite the status line if it's showing default connecting text —
+    // avoid stomping a "ready" / "open" message that's already showing.
+    updateRAIStatus(raiMessagingReady ? strings.statusReady : strings.statusConnecting);
+
+
+    const enBtn = document.getElementById("lang-en");
+    const esBtn = document.getElementById("lang-es");
+
+    if (enBtn) enBtn.setAttribute("aria-pressed", String(lang === "en"));
+    if (esBtn) esBtn.setAttribute("aria-pressed", String(lang === "es"));
+
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const enBtn = document.getElementById("lang-en");
+    const esBtn = document.getElementById("lang-es");
+
+    if (enBtn) {
+        enBtn.addEventListener("click", function () {
+            applyLang("en");
+        });
+    }
+
+    if (esBtn) {
+        esBtn.addEventListener("click", function () {
+            applyLang("es");
+        });
+    }
+
+});
+
+
 /*
  * Salesforce Messaging Ready Event
  */
@@ -25,7 +158,7 @@ window.addEventListener(
         raiMessagingReady = true;
 
         updateRAIStatus(
-            "RAI is ready to help."
+            raiStrings[currentLang].statusReady
         );
 
     }
@@ -66,7 +199,7 @@ function openRAIChat() {
         );
 
         updateRAIStatus(
-            "RAI is currently unavailable."
+            raiStrings[currentLang].statusUnavailable
         );
 
         return Promise.reject(
@@ -85,7 +218,7 @@ function openRAIChat() {
         );
 
         updateRAIStatus(
-            "RAI is still connecting..."
+            raiStrings[currentLang].statusStillConnecting
         );
 
         return Promise.reject(
@@ -96,7 +229,7 @@ function openRAIChat() {
 
 
     updateRAIStatus(
-        "Opening RAI..."
+        raiStrings[currentLang].statusOpening
     );
 
 
@@ -111,7 +244,7 @@ function openRAIChat() {
             );
 
             updateRAIStatus(
-                "RAI chat is open."
+                raiStrings[currentLang].statusOpen
             );
 
         })
@@ -124,7 +257,7 @@ function openRAIChat() {
             );
 
             updateRAIStatus(
-                "Unable to open RAI chat."
+                raiStrings[currentLang].statusUnableOpen
             );
 
         });
