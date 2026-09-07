@@ -32,7 +32,7 @@
 
 
     <!-- =========================
-         LANGUAGE TOGGLE  (NEW)
+         LANGUAGE TOGGLE
     ========================== -->
 
     <div class="lang-toggle" role="group" aria-label="Language / Idioma">
@@ -97,9 +97,6 @@
 
 
             <!-- Heading -->
-            <!-- NOTE: text content is now set/replaced by JS (applyLang) so it can swap
-                 language. The span.brand-name below is the default EN render; JS
-                 overwrites this h1's innerHTML on load and on toggle. -->
             <h1 id="raiHeading">
                 How can <span class="brand-name">RAI</span> help?
             </h1>
@@ -131,8 +128,6 @@
 
 
             <!-- Quick Reply Buttons -->
-            <!-- NOTE: data-key added so JS can swap each button's visible label AND
-                 its data-message (the text actually sent to RAI) together. -->
             <div class="quick-actions">
 
                 <button
@@ -202,22 +197,6 @@
                 Connecting to RAI...
             </div>
 
-
-            <!-- =========================
-                 CHAT STAGE  (NEW)
-                 The real Salesforce conversation window mounts INSIDE this
-                 div once launchChat() runs, via displayMode = 'inline' +
-                 targetElement below. It stays empty/hidden until then.
-            ========================== -->
-
-            <div id="rai-chat-container" class="rai-chat-container">
-
-                <p id="rai-chat-placeholder" class="rai-chat-placeholder">
-                    Your conversation will open here.
-                </p>
-
-            </div>
-
         </div>
 
     </main>
@@ -239,6 +218,60 @@
 
 
     <!-- =========================
+         FLOATING LAUNCHER  (NEW)
+         Round bubble, fixed bottom-right. Hidden until the chat has been
+         opened at least once; reappears whenever the chat is minimized.
+    ========================== -->
+
+    <button
+        id="rai-launcher"
+        class="rai-launcher"
+        type="button"
+        aria-label="Open RAI chat"
+    >
+        <span class="rai-launcher-icon">✦</span>
+    </button>
+
+
+    <!-- =========================
+         FULLSCREEN CHAT OVERLAY  (NEW)
+         True fullscreen (position: fixed; inset: 0) instead of the old
+         centered 480x600 box. Hidden by default via CSS; toggled open
+         with the .is-open class. The Salesforce conversation window
+         mounts into #rai-chat-body only, so our own header (with the
+         minimize control) never gets touched by Salesforce's render.
+    ========================== -->
+
+    <div id="rai-chat-container" class="rai-chat-container">
+
+        <div class="rai-chat-header">
+
+            <span class="rai-chat-header-title">RAI Assistant</span>
+
+            <button
+                id="rai-minimize-btn"
+                class="rai-chat-header-btn"
+                type="button"
+                aria-label="Minimize chat"
+                title="Minimize"
+            >
+                &#8211;
+            </button>
+
+        </div>
+
+        <div id="rai-chat-body" class="rai-chat-body">
+
+            <p id="rai-chat-placeholder" class="rai-chat-placeholder">
+                Your conversation will open here.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
          SALESFORCE EMBEDDED MESSAGING
     ========================== -->
 
@@ -252,27 +285,19 @@
 
             try {
 
-                // NOTE: this is read once, at init time. Toggling EN/ES on the page
-                // AFTER this has run does not change the bot's own language — see
-                // the note in script.js above the language toggle code.
                 embeddedservice_bootstrap.settings.language = 'en_US';
 
                 embeddedservice_bootstrap.settings.hideChatButton = true;
 
-                // NEW: mount the real conversation window inside our centered
-                // #rai-chat-container div instead of a floating corner bubble.
-                // Requires Enhanced Web Chat v2 (ECv2). If your deployment is
-                // legacy v1, this pair of settings is ignored and you'll still
-                // see the default floating behavior — let me know and I'll swap
-                // in the CSS-override fallback instead.
+                // Mount the real conversation window inside the INNER body div,
+                // not the outer overlay — so our header/minimize button and the
+                // launcher bubble stay under our own control at all times.
                 embeddedservice_bootstrap.settings.displayMode = 'inline';
 
                 embeddedservice_bootstrap.settings.targetElement =
-                    document.getElementById('rai-chat-container');
+                    document.getElementById('rai-chat-body');
 
-                // Keep the container empty/placeholder until the user actually
-                // triggers a conversation (Ask RAI / a quick action), rather
-                // than auto-starting a blank chat the instant the page loads.
+                // Keep it empty until the user actually triggers a conversation.
                 embeddedservice_bootstrap.settings.disableInlineAutoLaunch = true;
 
                 embeddedservice_bootstrap.init(
