@@ -25,8 +25,86 @@ body {
 }
 
 
+/* Applied while the fullscreen chat overlay is open, to stop the
+   background page from scrolling underneath it. */
+
+body.rai-chat-locked {
+
+    overflow: hidden;
+
+}
+
+
 /* ================================
-   LANGUAGE TOGGLE  (NEW)
+   LGCY HEADER
+================================ */
+
+.site-header {
+
+    width: 100%;
+
+    margin: 0;
+
+    padding: 0;
+
+    line-height: 0;
+
+    background: #ffffff;
+
+    overflow: hidden;
+}
+
+
+.header-image {
+
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+
+    max-width: 100%;
+
+    object-fit: cover;
+}
+
+
+/* ================================
+   LGCY FOOTER
+================================ */
+
+.site-footer {
+
+    width: 100%;
+
+    margin: 0;
+
+    padding: 0;
+
+    line-height: 0;
+
+    background: #ffffff;
+
+    overflow: hidden;
+}
+
+
+.footer-image {
+
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+
+    max-width: 100%;
+
+    object-fit: cover;
+}
+
+
+/* ================================
+   LANGUAGE TOGGLE
 ================================ */
 
 .lang-toggle {
@@ -109,7 +187,7 @@ body {
 
 .rai-page {
 
-    min-height: 100vh;
+    min-height: auto;
 
     display: flex;
 
@@ -119,7 +197,7 @@ body {
 
     background: #ffffff;
 
-    padding: 40px 24px;
+    padding: 80px 24px 100px;
 }
 
 
@@ -368,9 +446,6 @@ h1 {
 }
 
 
-/* CHANGED: was "h1 span" — narrowed to a dedicated class so the JS-driven
-   language swap (which rebuilds the h1's innerHTML) only colors the RAI
-   wordmark, not any other span that might end up inside h1. */
 .brand-name {
 
     color: #2169d8;
@@ -612,70 +687,6 @@ h1 {
 
 
 /* ================================
-   CHAT STAGE  (NEW)
-   Centered container the real Salesforce conversation window mounts into
-   (displayMode: 'inline' + targetElement in index.html).
-================================ */
-
-.rai-chat-container {
-
-    width: 100%;
-
-    max-width: 480px;
-
-    height: 600px;
-
-    margin: 30px auto 0;
-
-    border: 1px solid #d9dfe8;
-
-    border-radius: 18px;
-
-    background: #ffffff;
-
-    box-shadow:
-        0 8px 25px
-        rgba(20, 60, 120, 0.08);
-
-    overflow: hidden;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-}
-
-
-.rai-chat-placeholder {
-
-    color: #8b929e;
-
-    font-size: 14px;
-
-    padding: 0 24px;
-
-}
-
-
-@media (max-width: 480px) {
-
-    .rai-chat-container {
-
-        max-width: 100%;
-
-        height: 70vh;
-
-        margin-top: 20px;
-
-        border-radius: 14px;
-
-    }
-
-}
-
-
-/* ================================
    STATUS
 ================================ */
 
@@ -688,6 +699,226 @@ h1 {
     color: #8b929e;
 
     min-height: 18px;
+}
+
+
+/* ================================
+   FLOATING LAUNCHER  (NEW)
+   Round bubble, fixed bottom-right — the "minimized" state. Hidden
+   until the chat has been opened once, then reappears whenever the
+   fullscreen overlay is minimized.
+================================ */
+
+.rai-launcher {
+
+    display: none;
+
+    position: fixed;
+
+    right: 24px;
+    bottom: 24px;
+
+    width: 62px;
+    height: 62px;
+
+    border: none;
+    border-radius: 50%;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #47b9f5,
+            #1264d9
+        );
+
+    color: #ffffff;
+
+    font-size: 26px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 28px
+        rgba(20, 60, 140, .3);
+
+    z-index: 9998;
+
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+
+.rai-launcher.is-visible {
+
+    display: flex;
+
+}
+
+
+.rai-launcher:hover {
+
+    transform: scale(1.06);
+
+    box-shadow:
+        0 14px 32px
+        rgba(20, 60, 140, .38);
+
+}
+
+
+.rai-launcher:active {
+
+    transform: scale(.97);
+
+}
+
+
+.rai-launcher-icon {
+
+    line-height: 1;
+
+}
+
+
+/* ================================
+   FULLSCREEN CHAT OVERLAY  (NEW)
+   True fullscreen — position: fixed; inset: 0 — covering the whole
+   viewport, in place of the old centered 480x600 box. Hidden by
+   default; toggled with .is-open.
+================================ */
+
+.rai-chat-container {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100dvh;
+
+    margin: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #ffffff;
+
+    z-index: 9999;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(24px);
+
+    transition:
+        opacity .22s ease,
+        transform .22s ease,
+        visibility 0s linear .22s;
+}
+
+
+.rai-chat-container.is-open {
+
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+
+    transition:
+        opacity .22s ease,
+        transform .22s ease,
+        visibility 0s linear 0s;
+
+}
+
+
+.rai-chat-header {
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    height: 60px;
+
+    padding: 0 20px;
+
+    background: #101d4d;
+
+    color: #ffffff;
+
+}
+
+
+.rai-chat-header-title {
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+}
+
+
+.rai-chat-header-btn {
+
+    width: 34px;
+    height: 34px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, .12);
+
+    color: #ffffff;
+
+    font-size: 20px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background .15s ease;
+
+}
+
+
+.rai-chat-header-btn:hover {
+
+    background: rgba(255, 255, 255, .22);
+
+}
+
+
+.rai-chat-body {
+
+    flex: 1;
+
+    min-height: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+}
+
+
+.rai-chat-placeholder {
+
+    color: #8b929e;
+
+    font-size: 14px;
+
+    padding: 0 24px;
+
 }
 
 
@@ -798,91 +1029,18 @@ h1 {
 
         padding-left: 20px;
     }
-    /* ================================
-   LGCY HEADER
-================================ */
-
-.site-header {
-
-    width: 100%;
-
-    margin: 0;
-
-    padding: 0;
-
-    line-height: 0;
-
-    background: #ffffff;
-
-    overflow: hidden;
-}
 
 
-.header-image {
+    .rai-launcher {
 
-    display: block;
+        right: 16px;
+        bottom: 16px;
 
-    width: 100%;
+        width: 56px;
+        height: 56px;
 
-    height: auto;
+        font-size: 22px;
 
-    max-width: 100%;
-
-    object-fit: cover;
-}
-
-
-/* ================================
-   LGCY FOOTER
-================================ */
-
-.site-footer {
-
-    width: 100%;
-
-    margin: 0;
-
-    padding: 0;
-
-    line-height: 0;
-
-    background: #ffffff;
-
-    overflow: hidden;
-}
-
-
-.footer-image {
-
-    display: block;
-
-    width: 100%;
-
-    height: auto;
-
-    max-width: 100%;
-
-    object-fit: cover;
-}
-
-
-/* ================================
-   MAIN PAGE
-================================ */
-
-.rai-page {
-
-    min-height: auto;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    background: #ffffff;
-
-    padding: 80px 24px 100px;
-}
+    }
 
 }
