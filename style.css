@@ -26,6 +26,84 @@ body {
 
 
 /* ================================
+   LANGUAGE TOGGLE  (NEW)
+================================ */
+
+.lang-toggle {
+
+    position: absolute;
+
+    top: 18px;
+    right: 20px;
+
+    z-index: 10;
+
+    display: inline-flex;
+
+    border: 1px solid #d9dfe8;
+
+    border-radius: 999px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 5px 15px
+        rgba(30, 70, 130, .08);
+
+    overflow: hidden;
+}
+
+
+.lang-btn {
+
+    border: none;
+
+    background: transparent;
+
+    padding: 7px 16px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: #5b6b77;
+
+    cursor: pointer;
+
+    transition: background .15s ease, color .15s ease;
+}
+
+
+.lang-btn[aria-pressed="true"] {
+
+    background: #101d4d;
+
+    color: #ffffff;
+
+}
+
+
+@media (max-width: 480px) {
+
+    .lang-toggle {
+
+        top: 12px;
+        right: 12px;
+
+    }
+
+    .lang-btn {
+
+        padding: 6px 12px;
+
+        font-size: 12px;
+
+    }
+
+}
+
+
+/* ================================
    MAIN PAGE
 ================================ */
 
@@ -290,7 +368,10 @@ h1 {
 }
 
 
-h1 span {
+/* CHANGED: was "h1 span" — narrowed to a dedicated class so the JS-driven
+   language swap (which rebuilds the h1's innerHTML) only colors the RAI
+   wordmark, not any other span that might end up inside h1. */
+.brand-name {
 
     color: #2169d8;
 
@@ -653,5 +734,91 @@ h1 span {
 
         padding-left: 20px;
     }
+    /* ================================
+   LGCY HEADER
+================================ */
+
+.site-header {
+
+    width: 100%;
+
+    margin: 0;
+
+    padding: 0;
+
+    line-height: 0;
+
+    background: #ffffff;
+
+    overflow: hidden;
+}
+
+
+.header-image {
+
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+
+    max-width: 100%;
+
+    object-fit: cover;
+}
+
+
+/* ================================
+   LGCY FOOTER
+================================ */
+
+.site-footer {
+
+    width: 100%;
+
+    margin: 0;
+
+    padding: 0;
+
+    line-height: 0;
+
+    background: #ffffff;
+
+    overflow: hidden;
+}
+
+
+.footer-image {
+
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+
+    max-width: 100%;
+
+    object-fit: cover;
+}
+
+
+/* ================================
+   MAIN PAGE
+================================ */
+
+.rai-page {
+
+    min-height: auto;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background: #ffffff;
+
+    padding: 80px 24px 100px;
+}
 
 }
