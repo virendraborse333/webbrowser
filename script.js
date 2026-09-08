@@ -20,6 +20,13 @@ let hasOpened = false;
 let isOpen = false;
 
 
+// Disable ask box / quick buttons right away — they get re-enabled once
+// "onEmbeddedMessagingReady" fires (see setRAIControlsEnabled below).
+document.addEventListener("DOMContentLoaded", function () {
+    setRAIControlsEnabled(false);
+});
+
+
 /* ========================================
    LANGUAGE TOGGLE
    ----------------------------------------
@@ -195,6 +202,8 @@ window.addEventListener(
             raiStrings[currentLang].statusReady
         );
 
+        setRAIControlsEnabled(true);
+
     }
 );
 
@@ -213,6 +222,42 @@ function updateRAIStatus(message) {
         status.textContent = message;
 
     }
+
+}
+
+
+/* ========================================
+   DISABLE MAIN BODY UNTIL RAI IS READY  (NEW)
+   ----------------------------------------
+   Salesforce's bootstrap script + init sequence can take a few
+   seconds. Until "onEmbeddedMessagingReady" fires, the ask box, send
+   button, and quick-reply buttons are all disabled so the user can't
+   trigger a launch/send before the widget is actually able to handle
+   it. Everything is re-enabled the moment RAI reports ready.
+======================================== */
+
+function setRAIControlsEnabled(enabled) {
+
+    const input = document.getElementById("raiInput");
+    const send = document.getElementById("sendButton");
+    const askBox = document.querySelector(".ask-box");
+    const buttons = document.querySelectorAll(".quick-button");
+
+    if (input) {
+        input.disabled = !enabled;
+    }
+
+    if (send) {
+        send.disabled = !enabled;
+    }
+
+    if (askBox) {
+        askBox.classList.toggle("is-disabled", !enabled);
+    }
+
+    buttons.forEach(function (button) {
+        button.disabled = !enabled;
+    });
 
 }
 
