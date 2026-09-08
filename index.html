@@ -32,33 +32,6 @@
 
 
     <!-- =========================
-         LANGUAGE TOGGLE
-    ========================== -->
-
-    <div class="lang-toggle" role="group" aria-label="Language / Idioma">
-
-        <button
-            type="button"
-            id="lang-en"
-            class="lang-btn"
-            aria-pressed="true"
-        >
-            EN
-        </button>
-
-        <button
-            type="button"
-            id="lang-es"
-            class="lang-btn"
-            aria-pressed="false"
-        >
-            ES
-        </button>
-
-    </div>
-
-
-    <!-- =========================
          RAI MAIN PAGE
     ========================== -->
 
@@ -66,30 +39,57 @@
 
         <div class="rai-container">
 
-            <!-- RAI Robot -->
-            <div class="rai-logo">
+            <!-- RAI Robot + Language Toggle -->
+            <div class="rai-logo-row">
 
-                <div class="spark spark-1">✦</div>
-                <div class="spark spark-2">✦</div>
-                <div class="spark spark-3">✦</div>
+                <div class="rai-logo">
 
-                <div class="robot-circle">
+                    <div class="spark spark-1">✦</div>
+                    <div class="spark spark-2">✦</div>
+                    <div class="spark spark-3">✦</div>
 
-                    <div class="robot">
+                    <div class="robot-circle">
 
-                        <div class="robot-ear left"></div>
-                        <div class="robot-ear right"></div>
+                        <div class="robot">
 
-                        <div class="robot-face">
+                            <div class="robot-ear left"></div>
+                            <div class="robot-ear right"></div>
 
-                            <div class="eye left-eye"></div>
-                            <div class="eye right-eye"></div>
+                            <div class="robot-face">
 
-                            <div class="robot-smile"></div>
+                                <div class="eye left-eye"></div>
+                                <div class="eye right-eye"></div>
+
+                                <div class="robot-smile"></div>
+
+                            </div>
 
                         </div>
 
                     </div>
+
+                </div>
+
+
+                <div class="lang-toggle" role="group" aria-label="Language / Idioma">
+
+                    <button
+                        type="button"
+                        id="lang-en"
+                        class="lang-btn"
+                        aria-pressed="true"
+                    >
+                        EN
+                    </button>
+
+                    <button
+                        type="button"
+                        id="lang-es"
+                        class="lang-btn"
+                        aria-pressed="false"
+                    >
+                        ES
+                    </button>
 
                 </div>
 
@@ -133,14 +133,14 @@
                 <button
                     class="quick-button"
                     data-key="billing"
-                    data-message="I need help with billing and payments."
+                    data-message="I need help with flight cancellation."
                 >
                     <div class="quick-icon">
                         $
                     </div>
 
                     <span>
-                         Flight Cancellation
+                        Flight Cancellation
                     </span>
                 </button>
 
@@ -148,7 +148,7 @@
                 <button
                     class="quick-button"
                     data-key="maintenance"
-                    data-message="I need help with a maintenance request."
+                    data-message="I need help with baggage allowance."
                 >
                     <div class="quick-icon wrench">
                         🔧
@@ -163,7 +163,7 @@
                 <button
                     class="quick-button"
                     data-key="projectStatus"
-                    data-message="I would like to check my project status."
+                    data-message="I need help with hotel cancellation."
                 >
                     <div class="quick-icon">
                         ✓
@@ -178,7 +178,7 @@
                 <button
                     class="quick-button"
                     data-key="cancellations"
-                    data-message="I need help with cancelling or changing my project."
+                    data-message="I need help with travel insurance."
                 >
                     <div class="quick-icon">
                         ×
