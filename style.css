@@ -500,6 +500,40 @@ h1 {
 }
 
 
+.ask-box.is-disabled {
+
+    opacity: .55;
+
+    pointer-events: none;
+
+}
+
+
+.ask-box input:disabled {
+
+    cursor: not-allowed;
+
+}
+
+
+.send-button:disabled {
+
+    opacity: .5;
+
+    cursor: not-allowed;
+
+}
+
+
+.send-button:disabled:hover {
+
+    background: #edf4ff;
+
+    transform: none;
+
+}
+
+
 .ask-icon {
 
     font-size: 27px;
@@ -654,6 +688,22 @@ h1 {
 
     transform:
         translateY(0);
+}
+
+
+.quick-button:disabled {
+
+    opacity: .5;
+
+    cursor: not-allowed;
+
+    pointer-events: none;
+
+    transform: none;
+
+    box-shadow:
+        0 5px 15px
+        rgba(30, 70, 130, .05);
 }
 
 
