@@ -109,13 +109,6 @@ body.rai-chat-locked {
 
 .lang-toggle {
 
-    position: absolute;
-
-    top: 18px;
-    right: 20px;
-
-    z-index: 10;
-
     display: inline-flex;
 
     border: 1px solid #d9dfe8;
@@ -163,13 +156,6 @@ body.rai-chat-locked {
 
 @media (max-width: 480px) {
 
-    .lang-toggle {
-
-        top: 12px;
-        right: 12px;
-
-    }
-
     .lang-btn {
 
         padding: 6px 12px;
@@ -214,6 +200,24 @@ body.rai-chat-locked {
 
 
 /* ================================
+   ROBOT + LANGUAGE TOGGLE ROW  (NEW)
+================================ */
+
+.rai-logo-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 18px;
+
+    margin-bottom: 20px;
+}
+
+
+/* ================================
    ROBOT
 ================================ */
 
@@ -225,7 +229,9 @@ body.rai-chat-locked {
 
     height: 170px;
 
-    margin: 0 auto 20px;
+    margin: 0;
+
+    flex-shrink: 0;
 }
 
 
@@ -1007,6 +1013,15 @@ h1 {
     .rai-container {
 
         max-width: 100%;
+    }
+
+
+    .rai-logo-row {
+
+        flex-direction: column;
+
+        gap: 10px;
+
     }
 
 
