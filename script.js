@@ -421,9 +421,11 @@ function openRAIChat() {
 /*
  * Send message through Salesforce
  *
- * NOTE:
- * This uses Salesforce's Enhanced Web Chat
- * Send Message API.
+ * NOTE: The real API is utilAPI.sendTextMessage(text) — a plain
+ * string, not utilAPI.sendMessage({ text }). The old code called a
+ * method that doesn't exist on utilAPI, which silently threw and
+ * meant nothing ever actually reached the bot even though the chat
+ * window opened fine.
  */
 
 function sendRAIMessage(message) {
@@ -447,11 +449,12 @@ function sendRAIMessage(message) {
 
 
     if (
-        !embeddedservice_bootstrap.utilAPI
+        !embeddedservice_bootstrap.utilAPI ||
+        typeof embeddedservice_bootstrap.utilAPI.sendTextMessage !== "function"
     ) {
 
         console.error(
-            "[RAI] utilAPI is unavailable."
+            "[RAI] sendTextMessage API is unavailable."
         );
 
         return;
@@ -464,9 +467,7 @@ function sendRAIMessage(message) {
 
     embeddedservice_bootstrap
         .utilAPI
-        .sendMessage({
-            text: message
-        })
+        .sendTextMessage(message)
 
         .then(function () {
 
@@ -490,6 +491,45 @@ function sendRAIMessage(message) {
 
 
 /*
+ * A message waiting to be sent once the bot has actually joined the
+ * conversation. Salesforce fires "onEmbeddedMessagingFirstBotMessageSent"
+ * once the bot is ready to receive user text — that's the reliable
+ * signal to send on, not a fixed setTimeout guess.
+ */
+
+let pendingMessage = null;
+
+
+function flushPendingMessage() {
+
+    if (!pendingMessage) {
+        return;
+    }
+
+    const message = pendingMessage;
+
+    pendingMessage = null;
+
+    sendRAIMessage(message);
+
+}
+
+
+window.addEventListener(
+    "onEmbeddedMessagingFirstBotMessageSent",
+    function () {
+
+        console.log(
+            "[RAI] Bot has joined the conversation."
+        );
+
+        flushPendingMessage();
+
+    }
+);
+
+
+/*
  * Start RAI conversation
  * message is optional — clicking the bare launcher bubble opens the
  * chat with nothing pre-filled.
@@ -497,8 +537,17 @@ function sendRAIMessage(message) {
 
 function startRAIConversation(message) {
 
+    // Was the chat already launched earlier in this session? If so,
+    // the bot already joined and "onEmbeddedMessagingFirstBotMessageSent"
+    // won't fire again — we need to send directly instead of waiting on it.
+    const alreadyOpened = hasOpened;
+
+    if (message) {
+        pendingMessage = message;
+    }
+
     /*
-     * First open (and maximize) the Salesforce chat.
+     * Open (and maximize) the Salesforce chat.
      */
 
     openRAIChat()
@@ -509,20 +558,26 @@ function startRAIConversation(message) {
                 return;
             }
 
-            /*
-             * Give the messaging client
-             * a short moment to render.
-             */
+            if (alreadyOpened) {
 
+                // Bot already joined from an earlier launch — give the
+                // window a brief moment to re-render, then send directly.
+                setTimeout(
+                    flushPendingMessage,
+                    400
+                );
+
+                return;
+
+            }
+
+            // First launch: the event listener above will flush the
+            // pending message once the bot actually joins. This safety
+            // timeout only fires if that event never arrives for some
+            // reason, so the message doesn't get stuck silently.
             setTimeout(
-                function () {
-
-                    sendRAIMessage(
-                        message
-                    );
-
-                },
-                700
+                flushPendingMessage,
+                6000
             );
 
         });
