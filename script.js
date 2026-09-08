@@ -48,10 +48,10 @@ const raiStrings = {
         launcherLabel: "Open RAI chat",
         launcherText: "Ask Me Anything",
         quickActions: {
-            billing: { label: "Billing & Payments", message: "I need help with billing and payments." },
-            maintenance: { label: "Maintenance Requests", message: "I need help with a maintenance request." },
-            projectStatus: { label: "Project Status", message: "I would like to check my project status." },
-            cancellations: { label: "Cancellations & Changes", message: "I need help with cancelling or changing my project." }
+            billing: { label: "Flight Cancellation", message: "I need help with flight cancellation." },
+            maintenance: { label: "Baggage Allowance", message: "I need help with baggage allowance." },
+            projectStatus: { label: "Hotel Cancellation", message: "I need help with hotel cancellation." },
+            cancellations: { label: "Travel Insurance", message: "I need help with travel insurance." }
         }
     },
 
@@ -70,10 +70,10 @@ const raiStrings = {
         launcherLabel: "Abrir el chat de RAI",
         launcherText: "Pregúntame Lo Que Sea",
         quickActions: {
-            billing: { label: "Facturación y Pagos", message: "Necesito ayuda con la facturación y los pagos." },
-            maintenance: { label: "Solicitudes de Mantenimiento", message: "Necesito ayuda con una solicitud de mantenimiento." },
-            projectStatus: { label: "Estado del Proyecto", message: "Quisiera consultar el estado de mi proyecto." },
-            cancellations: { label: "Cancelaciones y Cambios", message: "Necesito ayuda para cancelar o cambiar mi proyecto." }
+            billing: { label: "Cancelación de Vuelo", message: "Necesito ayuda con la cancelación de mi vuelo." },
+            maintenance: { label: "Franquicia de Equipaje", message: "Necesito ayuda con la franquicia de equipaje." },
+            projectStatus: { label: "Cancelación de Hotel", message: "Necesito ayuda con la cancelación de mi hotel." },
+            cancellations: { label: "Seguro de Viaje", message: "Necesito ayuda con el seguro de viaje." }
         }
     }
 
