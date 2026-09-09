@@ -136,7 +136,7 @@
                     data-message="I need help with flight cancellation."
                 >
                     <div class="quick-icon">
-                        ✈️
+                        $
                     </div>
 
                     <span>
@@ -151,7 +151,7 @@
                     data-message="I need help with baggage allowance."
                 >
                     <div class="quick-icon wrench">
-                        🧳
+                        🔧
                     </div>
 
                     <span>
@@ -166,7 +166,7 @@
                     data-message="I need help with hotel cancellation."
                 >
                     <div class="quick-icon">
-                        🏨
+                        ✓
                     </div>
 
                     <span>
@@ -181,7 +181,7 @@
                     data-message="I need help with travel insurance."
                 >
                     <div class="quick-icon">
-                         🛡️
+                        ×
                     </div>
 
                     <span>
@@ -192,9 +192,55 @@
             </div>
 
 
+            <!-- Fallback Contact  (NEW) -->
+            <div class="rai-contact-fallback">
+
+                <div class="rai-contact-icon">
+                    <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2Z"
+                        />
+                    </svg>
+                </div>
+
+                <div class="rai-contact-text">
+
+                    <p id="rai-contact-title" class="rai-contact-title">
+                        Talk to a person
+                    </p>
+
+                    <p class="rai-contact-phone">
+                        <a href="tel:+18005551234">1-800-555-1234</a>
+                    </p>
+
+                    <p id="rai-contact-hours" class="rai-contact-hours">
+                        Mon–Fri, 8am–5pm MT
+                    </p>
+
+                </div>
+
+            </div>
+
+
             <!-- Loading / Status -->
             <div id="raiStatus" class="rai-status">
-                Connecting to RAI...
+
+                <span
+                    id="rai-status-spinner"
+                    class="rai-spinner"
+                    aria-hidden="true"
+                ></span>
+
+                <span id="rai-status-text">
+                    Connecting to RAI...
+                </span>
+
             </div>
 
         </div>
@@ -346,6 +392,8 @@
                     "Unable to connect to RAI."
                 );
 
+                setRAILoadingVisible(false);
+
             }
 
         }
@@ -400,6 +448,8 @@
                 updateRAIStatus(
                     "Unable to connect to RAI."
                 );
+
+                setRAILoadingVisible(false);
 
             };
 
