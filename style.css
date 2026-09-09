@@ -743,18 +743,156 @@ h1 {
 
 
 /* ================================
-   STATUS
+   FALLBACK CONTACT  (NEW)
+================================ */
+
+.rai-contact-fallback {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    width: 100%;
+
+    margin-top: 22px;
+
+    padding: 18px 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #d9dfe8;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 5px 15px
+        rgba(30, 70, 130, .05);
+
+    text-align: left;
+}
+
+
+.rai-contact-icon {
+
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #eaf3ff;
+
+    color: #1764d6;
+}
+
+
+.rai-contact-title {
+
+    margin: 0 0 4px;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    color: #101d4d;
+}
+
+
+.rai-contact-phone {
+
+    margin: 0;
+
+}
+
+
+.rai-contact-phone a {
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #1764d6;
+
+    text-decoration: none;
+
+}
+
+
+.rai-contact-phone a:hover {
+
+    text-decoration: underline;
+
+}
+
+
+.rai-contact-hours {
+
+    margin: 2px 0 0;
+
+    font-size: 13px;
+
+    color: #8b929e;
+
+}
+
+
+/* ================================
+   STATUS + LOADING SPINNER  (NEW)
 ================================ */
 
 .rai-status {
 
     margin-top: 18px;
 
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
     font-size: 13px;
 
     color: #8b929e;
 
     min-height: 18px;
+}
+
+
+.rai-spinner {
+
+    display: inline-block;
+
+    width: 13px;
+    height: 13px;
+
+    border: 2px solid #d9dfe8;
+
+    border-top-color: #1764d6;
+
+    border-radius: 50%;
+
+    animation: rai-spin .7s linear infinite;
+
+}
+
+
+@keyframes rai-spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
 }
 
 
@@ -1114,6 +1252,23 @@ h1 {
         padding: 11px 18px 11px 15px;
 
         font-size: 14px;
+
+    }
+
+
+    .rai-contact-fallback {
+
+        padding: 14px 16px;
+
+        gap: 12px;
+
+    }
+
+
+    .rai-contact-icon {
+
+        width: 40px;
+        height: 40px;
 
     }
 
