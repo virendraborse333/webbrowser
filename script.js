@@ -54,6 +54,8 @@ const raiStrings = {
         minimizeLabel: "Minimize chat",
         launcherLabel: "Open RAI chat",
         launcherText: "Ask Me Anything",
+        contactTitle: "Talk to a person",
+        contactHours: "Mon–Fri, 8am–5pm MT",
         quickActions: {
             billing: { label: "Flight Cancellation", message: "I need help with flight cancellation." },
             maintenance: { label: "Baggage Allowance", message: "I need help with baggage allowance." },
@@ -76,6 +78,8 @@ const raiStrings = {
         minimizeLabel: "Minimizar chat",
         launcherLabel: "Abrir el chat de RAI",
         launcherText: "Pregúntame Lo Que Sea",
+        contactTitle: "Habla con una persona",
+        contactHours: "Lun–Vie, 8am–5pm MT",
         quickActions: {
             billing: { label: "Cancelación de Vuelo", message: "Necesito ayuda con la cancelación de mi vuelo." },
             maintenance: { label: "Franquicia de Equipaje", message: "Necesito ayuda con la franquicia de equipaje." },
@@ -154,6 +158,16 @@ function applyLang(lang) {
         launcherText.textContent = strings.launcherText;
     }
 
+    const contactTitle = document.getElementById("rai-contact-title");
+    if (contactTitle) {
+        contactTitle.textContent = strings.contactTitle;
+    }
+
+    const contactHours = document.getElementById("rai-contact-hours");
+    if (contactHours) {
+        contactHours.textContent = strings.contactHours;
+    }
+
 
     const enBtn = document.getElementById("lang-en");
     const esBtn = document.getElementById("lang-es");
@@ -204,22 +218,46 @@ window.addEventListener(
 
         setRAIControlsEnabled(true);
 
+        setRAILoadingVisible(false);
+
     }
 );
 
 
 /*
  * Update status text
+ * Writes into the inner span so the spinner element next to it is
+ * never wiped out by textContent overwrites.
  */
 
 function updateRAIStatus(message) {
 
-    const status =
-        document.getElementById("raiStatus");
+    const statusText =
+        document.getElementById("rai-status-text");
 
-    if (status) {
+    if (statusText) {
 
-        status.textContent = message;
+        statusText.textContent = message;
+
+    }
+
+}
+
+
+/*
+ * Loading spinner — visible from page load until RAI reports ready
+ * (or fails to load). Gives the customer a clear "still working on
+ * it" signal beyond just the status text.
+ */
+
+function setRAILoadingVisible(visible) {
+
+    const spinner =
+        document.getElementById("rai-status-spinner");
+
+    if (spinner) {
+
+        spinner.style.display = visible ? "inline-block" : "none";
 
     }
 
