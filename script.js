@@ -57,10 +57,10 @@ const raiStrings = {
         contactTitle: "Talk to a person",
         contactHours: "Mon–Fri, 8am–5pm MT",
         quickActions: {
-            billing: { label: "Flight Cancellation", message: "I need help with flight cancellation." },
-            maintenance: { label: "Baggage Allowance", message: "I need help with baggage allowance." },
-            projectStatus: { label: "Hotel Cancellation", message: "I need help with hotel cancellation." },
-            cancellations: { label: "Travel Insurance", message: "I need help with travel insurance." }
+            billing: { label: "Billing", message: "I have a question about my billing or payment." },
+            maintenance: { label: "Maintenance", message: "I need help with a maintenance issue on my solar system." },
+            projectStatus: { label: "Project Status", message: "What is the current status of my solar installation project" },
+            accountChanges : { label: "Account Changes", message: "I'd like to ask about making changes to my account or service." }
         }
     },
 
