@@ -81,11 +81,11 @@ const raiStrings = {
         contactTitle: "Habla con una persona",
         contactHours: "Lun–Vie, 8am–5pm MT",
         quickActions: {
-            billing: { label: "Cancelación de Vuelo", message: "Necesito ayuda con la cancelación de mi vuelo." },
-            maintenance: { label: "Franquicia de Equipaje", message: "Necesito ayuda con la franquicia de equipaje." },
-            projectStatus: { label: "Cancelación de Hotel", message: "Necesito ayuda con la cancelación de mi hotel." },
-            cancellations: { label: "Seguro de Viaje", message: "Necesito ayuda con el seguro de viaje." }
-        }
+               billing: { label: "Facturación", message: "Tengo una pregunta sobre mi facturación o pago." },
+               maintenance: { label: "Mantenimiento", message: "Necesito ayuda con un problema de mantenimiento en mi sistema solar." },
+               projectStatus: { label: "Estado del proyecto", message: "¿Cuál es el estado actual de mi proyecto de instalación solar?" },
+               accountChanges : { label: "Cambios en la cuenta", message: "Quisiera consultar sobre cómo realizar cambios en mi cuenta o servicio." }
+         }
     }
 
 };
